@@ -17,8 +17,8 @@
 package com.example.android.courtcounter;
 
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -26,7 +26,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * This activity keeps track of the basketball score for 2 teams.
@@ -34,10 +33,9 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     // Tracks the score for Team A
-    int scoreTeamA = 0;
+    int countScore = 0;
 
-    // Tracks the score for Team B
-    int scoreTeamB = 0;
+    SharedPreferences sharedPref;
 
     boolean doubleBackToExitPressedOnce = false;
 
@@ -45,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sharedPref = getPreferences(MODE_PRIVATE);
+        countScore = sharedPref.getInt("Count", 0);
+        displayForTeamA(countScore);
     }
 
     @Override
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimpSlifiableIfStatement
+        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -108,16 +109,31 @@ public class MainActivity extends AppCompatActivity {
         }, 2000);*/
     }
 
+    /**
+     * Increase the score for Team A by 1 point.
+     */
+    public void addOneForTeamA(View v) {
+        countScore = countScore + 1;
+        displayForTeamA(countScore);
+        sharedPref = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("Count", countScore);
+        editor.commit();
+        return;
+    }
 
     /**
      * Increase the score for Team A by 1 point.
      */
     public void addOneForTeamA(View v) {
-        scoreTeamA = scoreTeamA + 1;
-        displayForTeamA(scoreTeamA);
-    }
-
-    /**
+        countScore = countScore + 1;
+        displayForTeamA(countScore);
+        sharedPref = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("Count", countScore);
+        editor.commit();
+        return;
+    }    /**
      * Displays the given score for Team A.
      */
     public void displayForTeamA(int score) {
@@ -129,8 +145,7 @@ public class MainActivity extends AppCompatActivity {
      * Resets the score for both teams back to 0.
      */
     public void resetScore(View v) {
-        scoreTeamA = 0;
-        scoreTeamB = 0;
-        displayForTeamA(scoreTeamA);
+        countScore = 0;
+        displayForTeamA(countScore);
     }
 }
