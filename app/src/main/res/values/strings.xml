@@ -15,4 +15,7 @@
 <resources>
     <string name="app_name">Chant Counter</string>
     <string name="action_settings">About</string>
+    <string name="count">Count</string>
+    <string name="reset">Reset</string>
+    <string name="counter">Counter</string>
 </resources>
