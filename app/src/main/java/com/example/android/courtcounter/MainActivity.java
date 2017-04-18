@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
 
     SharedPreferences sharedPref;
 
+    String Count = "Count";
+
     boolean doubleBackToExitPressedOnce = false;
 
     @Override
@@ -44,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         sharedPref = getPreferences(MODE_PRIVATE);
-        countScore = sharedPref.getInt("Count", 0);
+        countScore = sharedPref.getInt(Count, 0);
         displayForTeamA(countScore);
     }
 
@@ -125,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         displayForTeamA(countScore);
         sharedPref = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt("Count", countScore);
+        editor.putInt(Count, countScore);
         editor.commit();
         return;
     }
@@ -135,6 +137,9 @@ public class MainActivity extends AppCompatActivity {
      */
     public void resetScore(View v) {
         countScore = 0;
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt(Count, countScore);
+        editor.commit();
         displayForTeamA(countScore);
     }
 }
