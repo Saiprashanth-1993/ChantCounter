@@ -48,6 +48,14 @@ public class MainActivity extends AppCompatActivity {
         displayForTeamA(countScore);
     }
 
+    /**
+     * Displays the given score for Team A.
+     */
+    public void displayForTeamA(int score) {
+        TextView scoreView = (TextView) findViewById(R.id.team_a_score);
+        scoreView.setText(String.valueOf(score));
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -120,25 +128,6 @@ public class MainActivity extends AppCompatActivity {
         editor.putInt("Count", countScore);
         editor.commit();
         return;
-    }
-
-    /**
-     * Increase the score for Team A by 1 point.
-     */
-    public void addOneForTeamA(View v) {
-        countScore = countScore + 1;
-        displayForTeamA(countScore);
-        sharedPref = getPreferences(MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt("Count", countScore);
-        editor.commit();
-        return;
-    }    /**
-     * Displays the given score for Team A.
-     */
-    public void displayForTeamA(int score) {
-        TextView scoreView = (TextView) findViewById(R.id.team_a_score);
-        scoreView.setText(String.valueOf(score));
     }
 
     /**
