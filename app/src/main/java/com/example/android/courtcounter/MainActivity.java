@@ -86,13 +86,13 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle(R.string.app_name)
                 .setMessage("Do you want to exit the App ?").setCancelable(false)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         ActivityCompat.finishAffinity(MainActivity.this);
                     }
                 })
-                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                .setNegativeButton("NO", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -122,8 +122,18 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Increase the score for Team A by 1 point.
      */
-    public void addOneForTeamA(View v) {
+    public void addOneCount(View v) {
         countScore = countScore + 1;
+        displayForTeamA(countScore);
+        sharedPref = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt(Count, countScore);
+        editor.commit();
+        return;
+    }
+
+    public void reduceOneCount(View v) {
+        countScore = countScore - 1;
         displayForTeamA(countScore);
         sharedPref = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
