@@ -19,12 +19,14 @@ package com.example.android.courtcounter;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 /**
@@ -32,9 +34,11 @@ import android.widget.TextView;
  */
 public class MainActivity extends AppCompatActivity {
 
-    // Tracks the score for Team A
-    int countScore = 0;
-
+    private static int countScore = 0;
+    public static final int MAX_VALUE = 9999;
+    public static final int MIN_VALUE = 0;
+    private Button incrementButton;
+    private Button decrementButton;
     SharedPreferences sharedPref;
 
     String Count = "Count";
@@ -45,8 +49,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        incrementButton = (Button) findViewById(R.id.increment);
+        decrementButton = (Button) findViewById(R.id.decrement);
+
         sharedPref = getPreferences(MODE_PRIVATE);
         countScore = sharedPref.getInt(Count, 0);
+
         displayForTeamA(countScore);
     }
 
@@ -56,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     public void displayForTeamA(int score) {
         TextView scoreView = (TextView) findViewById(R.id.team_a_score);
         scoreView.setText(String.valueOf(score));
+        checkStateOfButtons();
     }
 
     @Override
@@ -130,6 +139,13 @@ public class MainActivity extends AppCompatActivity {
         editor.putInt(Count, countScore);
         editor.commit();
         return;
+    }
+
+    private void checkStateOfButtons() {
+        if (countScore >= MAX_VALUE) incrementButton.setEnabled(false);
+        else incrementButton.setEnabled(true);
+        if (countScore <= MIN_VALUE) decrementButton.setEnabled(false);
+        else decrementButton.setEnabled(true);
     }
 
     public void reduceOneCount(View v) {
