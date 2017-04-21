@@ -43,15 +43,12 @@ public class MainActivity extends AppCompatActivity {
 
     boolean doubleBackToExitPressedOnce = false;
 
-    private Button incrementButton;
-
     private Button decrementButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        incrementButton = (Button) findViewById(R.id.increment);
         decrementButton = (Button) findViewById(R.id.decrement);
 
         sharedPref = getPreferences(MODE_PRIVATE);
