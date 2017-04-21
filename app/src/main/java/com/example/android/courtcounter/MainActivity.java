@@ -16,12 +16,17 @@
 
 package com.example.android.courtcounter;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,6 +40,16 @@ public class MainActivity extends AppCompatActivity {
 
     public static final int MIN_VALUE = 0;
 
+    private static final String PREF_KEEP_SCREEN_ON = "keepScreenOn";
+
+    private static final String PREF_THEME = "theme";
+
+    private static final String THEME_DARK = "dark";
+
+    private static final String THEME_LIGHT = "light";
+
+    private static final long DEFAULT_VIBRATION_DURATION = 20; // Milliseconds
+
     private static int countScore = 0;
 
     SharedPreferences sharedPref;
@@ -43,14 +58,21 @@ public class MainActivity extends AppCompatActivity {
 
     boolean doubleBackToExitPressedOnce = false;
 
+    private Vibrator vibrator;
+
     private Button decrementButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        if (sharedPref.getString(PREF_THEME, THEME_LIGHT).equals(THEME_DARK)) {
+            setTheme(R.style.AppTheme_Dark);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        decrementButton = (Button) findViewById(R.id.decrement);
 
+        decrementButton = (Button) findViewById(R.id.decrement);
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         sharedPref = getPreferences(MODE_PRIVATE);
         countScore = sharedPref.getInt(Count, 0);
 
@@ -67,10 +89,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkStateOfButtons() {
-        if (countScore <= MIN_VALUE)decrementButton.setEnabled(false);
+        if (countScore <= MIN_VALUE) decrementButton.setEnabled(false);
         else decrementButton.setEnabled(true);
     }
 
+   /* @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        return super.onKeyDown(keyCode, event) || this.onKeyDown(keyCode, event);
+    }
+*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -86,7 +113,9 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.menu_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
             return true;
         }
 
@@ -132,12 +161,54 @@ public class MainActivity extends AppCompatActivity {
         }, 2000);*/
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (sharedPref.getBoolean(PREF_KEEP_SCREEN_ON, false)) {
+            getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        } else {
+            getWindow().clearFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
+    }
+
+    private void vibrate(long duration) {
+        if (sharedPref.getBoolean("vibrationOn", true)) {
+            vibrator.vibrate(duration);
+        }
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event, View view) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                if (sharedPref.getBoolean("hardControlOn", true)) {
+                    addOneCount(view);
+                    return true;
+                }
+                return false;
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                if (sharedPref.getBoolean("hardControlOn", true)) {
+                    reduceOneCount(view);
+                    return true;
+                }
+                return false;
+            case KeyEvent.KEYCODE_CAMERA:
+                if (sharedPref.getBoolean("hardControlOn", true)) {
+                    resetScore(view);
+                    return true;
+                }
+                return false;
+            default:
+                return false;
+        }
+    }
+
     /**
      * Increase the score for Team A by 1 point.
      */
     public void addOneCount(View v) {
         countScore = countScore + 1;
         displayCountValue(countScore);
+        vibrate(DEFAULT_VIBRATION_DURATION);
         sharedPref = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putInt(Count, countScore);
@@ -148,6 +219,7 @@ public class MainActivity extends AppCompatActivity {
     public void reduceOneCount(View v) {
         countScore = countScore - 1;
         displayCountValue(countScore);
+        vibrate(DEFAULT_VIBRATION_DURATION + 20);
         sharedPref = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putInt(Count, countScore);

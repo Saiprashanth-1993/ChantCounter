@@ -28,7 +28,7 @@
                     android:gravity="center"
                     android:padding="16dp"
                     android:text="@string/counter"
-                    android:textColor="#616161"
+                    android:textColor="?valueColor"
                     android:textSize="14sp" />
 
                 <TextView
@@ -40,7 +40,7 @@
                     android:fontFamily="sans-serif-light"
                     android:gravity="center"
                     android:text="0"
-                    android:textColor="@android:color/black"
+                    android:textColor="?valueColor"
                     android:textSize="100dp" />
 
                 <View
@@ -60,6 +60,7 @@
                     android:elevation="10dp"
                     android:onClick="addOneCount"
                     android:text="@string/count"
+                    android:textColor="?valueColor"
                     android:textSize="30dp" />
             </LinearLayout>
         </LinearLayout>
@@ -78,6 +79,7 @@
                 android:elevation="10dp"
                 android:onClick="resetScore"
                 android:text="@string/reset"
+                android:textColor="?valueColor"
                 android:textSize="20dp" />
 
             <Button
@@ -87,6 +89,7 @@
                 android:elevation="10dp"
                 android:onClick="reduceOneCount"
                 android:text="@string/minus"
+                android:textColor="?valueColor"
                 android:textSize="20dp"
                 android:textStyle="bold" />
         </LinearLayout>

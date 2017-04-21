@@ -19,4 +19,31 @@
     <string name="reset">Reset</string>
     <string name="counter">Counter</string>
     <string name="minus">-1</string>
+
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_display">Display</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_dark">Dark</string>
+    <string name="settings_keep_on_title">Keep screen on</string>
+    <string name="settings_keep_on_summary">Keep screen on while app is active</string>
+    <string name="settings_controls">Controls</string>
+    <string name="settings_sounds_title">Turn on sounds</string>
+    <string name="settings_sounds_summary">Play sounds</string>
+    <string name="settings_vibration_title">Turn on vibration</string>
+    <string name="settings_vibration_summary">Vibrate on changes</string>
+    <string name="settings_hard_title">Use hardware buttons</string>
+    <string name="settings_hard_summary">Change counter value using hardware buttons</string>
+    <string name="settings_other">App Version</string>
+    <string name="settings_version_title">Version</string>
+    <string name="settings_wipe_title">Remove all counters</string>
+    <string name="settings_wipe_confirmation">Do you really want to remove all counters?</string>
+    <string name="settings_wipe_confirmation_yes">Remove all</string>
+
+    <!-- Other stuff -->
+    <string name="default_counter_name">First counter</string>
+    <string name="unknown">Unknown</string>
+
 </resources>
