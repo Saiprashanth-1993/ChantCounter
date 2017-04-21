@@ -84,13 +84,10 @@
                 android:id="@+id/decrement"
                 android:layout_width="125dp"
                 android:layout_height="90dp"
-                android:layout_marginTop="7dp"
                 android:elevation="10dp"
                 android:onClick="reduceOneCount"
                 android:text="@string/minus"
-                android:textAlignment="center"
-                android:textAllCaps="true"
-                android:textSize="40dp"
+                android:textSize="20dp"
                 android:textStyle="bold" />
         </LinearLayout>
 

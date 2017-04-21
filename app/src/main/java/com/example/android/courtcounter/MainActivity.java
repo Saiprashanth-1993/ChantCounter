@@ -54,20 +54,20 @@ public class MainActivity extends AppCompatActivity {
         sharedPref = getPreferences(MODE_PRIVATE);
         countScore = sharedPref.getInt(Count, 0);
 
-        displayForTeamA(countScore);
+        displayCountValue(countScore);
     }
 
     /**
      * Displays the given score for Team A.
      */
-    public void displayForTeamA(int score) {
+    public void displayCountValue(int score) {
         TextView scoreView = (TextView) findViewById(R.id.team_a_score);
         scoreView.setText(String.valueOf(score));
         checkStateOfButtons();
     }
 
     private void checkStateOfButtons() {
-        if (countScore <= MIN_VALUE) decrementButton.setEnabled(false);
+        if (countScore <= MIN_VALUE)decrementButton.setEnabled(false);
         else decrementButton.setEnabled(true);
     }
 
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void addOneCount(View v) {
         countScore = countScore + 1;
-        displayForTeamA(countScore);
+        displayCountValue(countScore);
         sharedPref = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putInt(Count, countScore);
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void reduceOneCount(View v) {
         countScore = countScore - 1;
-        displayForTeamA(countScore);
+        displayCountValue(countScore);
         sharedPref = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putInt(Count, countScore);
@@ -163,6 +163,6 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putInt(Count, countScore);
         editor.commit();
-        displayForTeamA(countScore);
+        displayCountValue(countScore);
     }
 }
